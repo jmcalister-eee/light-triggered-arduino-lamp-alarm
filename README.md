@@ -16,9 +16,7 @@ All photos: [docs/images](docs/images)
 ## How it works
 
 ```
-phone screen -> photoresistor -> voltage divider -> A0
-    -> Arduino (threshold + 10 s check) -> pin 7
-    -> IoT Power Relay -> lamp
+phone screen -> photoresistor -> voltage divider -> A0 Pin -> Arduino (threshold + 10 s check) -> pin 7-> IoT Power Relay -> lamp
 ```
 
 The phone sits in a 3D printed case with a photoresistor (LDR) facing the screen. When the screen lights up, the LDR's resistance drops. The Arduino can't measure resistance directly, so the LDR is part of a voltage divider and the Arduino measures the voltage at pin A0 instead. When the voltage stays high enough for 10 seconds straight, the Arduino sends a signal on pin 7 to an IoT Power Relay, which turns the lamp on.
@@ -41,18 +39,18 @@ The relay is drawn as a 2-pin connector (J1) since it's an off-the-shelf module,
 
 | Part | Part number | Qty | Source | Notes |
 |---|---|---|---|---|
-| UNO R3 Controller Board (Elegoo, Arduino Uno compatible) | | 1 | ELEGOO Most Complete Starter Kit | Select "Arduino Uno" in the IDE |
-| Photoresistor (LDR) | | 1 | ELEGOO Most Complete Starter Kit | Mounted in the phone case |
-| 100k resistor | | 1 | ELEGOO Most Complete Starter Kit | In series with five 10k resistors; (100k + (5 * 10k)) = 150k for R1 |
-| 10k resistor | | 5 | ELEGOO Most Complete Starter Kit | In-series with the 100k |
-| Digital Loggers IoT Power Relay | TODO (model from the box label) | 1 | Digital Loggers (iotrelay.com) | Control input 3.3-48 VDC |
-| 9V DC barrel jack adapter | | 1 | ELEGOO Most Complete Starter Kit | Powers the Arduino from the relay's always-on outlet |
-| Breadboard | | 1 | ELEGOO Most Complete Starter Kit | |
-| Jumper wires | | ~6 | ELEGOO Most Complete Starter Kit | Amount of wires used depends on circuit configuration and what is avaliable to you (I didn't have regular wires, only jumper wires) |
-| Female to Male Jumper Wires | | 2 | ELEGOO Most Complete Starter Kit | These plug into the photoresistor |
-| USB-B cable | | 1 | ELEGOO Most Complete Starter Kit | For uploading code to the Arduino |
-| Lamp | | 1 | | Any normal lamp that can plug into 120V outlets |
-| External case | | 1 | 3D printed | Holds the phone over the photoresistor. Slots on top for the Arduino and an optional 9V battery. Files are in `hardware/`. |
+| UNO R3 Controller Board (Elegoo, Arduino Uno compatible) | - | 1 | ELEGOO Most Complete Starter Kit | Select "Arduino Uno" in the IDE |
+| Photoresistor (LDR) | - | 1 | ELEGOO Most Complete Starter Kit | Mounted in the phone case |
+| 100k resistor | - | 1 | ELEGOO Most Complete Starter Kit | In series with five 10k resistors; (100k + (5 * 10k)) = 150k for R1 |
+| 10k resistor | - | 5 | ELEGOO Most Complete Starter Kit | In-series with the 100k |
+| Digital Loggers IoT Power Relay | - | 1 | Digital Loggers (iotrelay.com) | Control input 3.3-48 VDC |
+| 9V DC barrel jack adapter | - | 1 | ELEGOO Most Complete Starter Kit | Powers the Arduino from the relay's always-on outlet |
+| Breadboard | - | 1 | ELEGOO Most Complete Starter Kit | |
+| Jumper wires | - | ~6 | ELEGOO Most Complete Starter Kit | Amount of wires used depends on circuit configuration and what is avaliable to you (I didn't have regular wires, only jumper wires) |
+| Female to Male Jumper Wires | - | 2 | ELEGOO Most Complete Starter Kit | These plug into the photoresistor |
+| USB-B cable | - | 1 | ELEGOO Most Complete Starter Kit | For uploading code to the Arduino |
+| Lamp | - | 1 | - | Any lamp that can be powered by an 120V outlet (regular wall outlet) |
+| External case | - | 1 | 3D printed (PETG is used, but PLA will work) | Holds the phone over the photoresistor. Slots on top for the Arduino and an optional 9V battery. Files are in `hardware/`. |
 
 ### Wiring
 
@@ -75,6 +73,7 @@ A0 reads the voltage across R1. Since the divider and the ADC both run off the s
 
 ```
 V_A0    = (5 * (R1 / (R1 + R_LDR)))
+
 reading = (V_A0 * (1024 / 5))
         = ((1024 * R1) / (R1 + R_LDR))
 
@@ -87,7 +86,7 @@ These are `LDROhmsToADC()` and `ADCToLDROhms()` in the code. My hand derivation:
 
 Designed in Fusion 360 and 3D printed. I went through about 10 versions. It's still a work in progress. Its main function is to hold the phone and photoresistor in place, while not allowing too much ambient light to get to the photoresistor.
 
-| Early prototype | Fusion 360 model | Later iteration |
+| Early prototype | Early Prototype CAD model | Later iteration |
 |---|---|---|
 | ![Early prototype](docs/images/Early_Phone_Enclosure_Prototype.jpg) | ![Fusion 360 model](docs/images/Modeling_Prototype_Phone_Enclosure.jpg) | ![Later iteration](docs/images/Phone_Enclosure_Later_Iteration.jpg) |
 
